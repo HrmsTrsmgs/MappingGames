@@ -1,0 +1,68 @@
+﻿<Page
+    x:Class="Marimo.MappingGames.Uwp.Views.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:tk="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    Style="{StaticResource PageStyle}"
+    xmlns:prismMvvm="using:Prism.Windows.Mvvm"
+    prismMvvm:ViewModelLocator.AutoWireViewModel="True" 
+    mc:Ignorable="d">
+    <Grid x:Name="ContentArea" Margin="{StaticResource MediumLeftRightMargin}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <TextBlock
+            Grid.Row="0"
+            x:Uid="Main_Title"
+            Style="{StaticResource PageTitleStyle}" />
+        <RelativePanel 
+            Grid.Row="1" 
+            Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
+            <Button x:Name="クリップボードから貼り付け"
+                RelativePanel.LeftOf="元画像"
+                >クリップボードから貼り付け
+                <Button.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="V" Modifiers="Control">
+
+                    </KeyboardAccelerator>
+                </Button.KeyboardAccelerators>
+                <i:Interaction.Behaviors>
+                    <ic:EventTriggerBehavior EventName="Click">
+                        <ic:InvokeCommandAction Command="{Binding 画像を取り込むCommand}" />
+                    </ic:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </Button>
+            <Image x:Name="元画像"
+                   RelativePanel.AlignTopWithPanel="True"
+                   RelativePanel.AlignRightWithPanel="True"
+                Source="{Binding 元画像}"/>
+            <Button x:Name="分割"
+                RelativePanel.Below="元画像"
+                RelativePanel.AlignHorizontalCenterWithPanel="True"
+                    Command="{Binding 画像を分割するCommand}"
+                >分割</Button>
+            <ScrollViewer>
+                <ListView x:Name="分割画像"
+                RelativePanel.Below="分割"
+                          ItemsSource="{Binding 分割された画像}">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <tk:WrapPanel></tk:WrapPanel>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                            <Image Stretch="None" Margin="5" Source="{Binding}"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            </ScrollViewer>
+        </RelativePanel>
+    </Grid>
+</Page>
