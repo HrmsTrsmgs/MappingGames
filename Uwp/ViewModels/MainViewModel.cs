@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Windows.Input;
@@ -16,12 +17,39 @@ namespace Marimo.MappingGames.Uwp.ViewModels
         public MainViewModel()
         {
         }
+        double _元画像倍率 = 100;
+        public double 元画像倍率
+        {
+            get => _元画像倍率;
+            set
+            {
+                SetProperty(ref _元画像倍率, value);
+                RaisePropertyChanged(nameof(画像Size));
+            }
+        }
 
         WriteableBitmap _元画像 = null;
         public WriteableBitmap 元画像
         {
             get => _元画像;
             set => SetProperty(ref _元画像, value);
+        }
+
+        Size _元画像Size = new Size();
+        public Size 元画像Size
+        {
+            get => _元画像Size;
+            set
+            {
+                SetProperty(ref _元画像Size, value);
+                RaisePropertyChanged(nameof(画像Size));
+            }
+        }
+
+        
+        public Size 画像Size
+        {
+            get => new Size((int)(元画像Size.Width * 元画像倍率 / 100), (int)(元画像Size.Height * 元画像倍率 / 100));
         }
 
         public ObservableCollection<ImageSource> 分割された画像 { get; } = new ObservableCollection<ImageSource>();
@@ -44,7 +72,7 @@ namespace Marimo.MappingGames.Uwp.ViewModels
                             stream.AsStreamForWrite();
                             var writeable = new WriteableBitmap(1, 1);
                             await writeable.SetSourceAsync(stream);
-
+                            元画像Size = new Size(writeable.PixelWidth, writeable.PixelHeight);
                             元画像 = writeable;
                         });
                 }

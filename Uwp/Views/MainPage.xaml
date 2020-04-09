@@ -7,6 +7,8 @@
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:tk="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:ctrl="using:Microsoft.UI.Xaml.Controls"
+    xmlns:vm="using:Marimo.MappingGames.Uwp.ViewModels"
     Style="{StaticResource PageStyle}"
     xmlns:prismMvvm="using:Prism.Windows.Mvvm"
     prismMvvm:ViewModelLocator.AutoWireViewModel="True" 
@@ -16,21 +18,23 @@
             <RowDefinition Height="48" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20"></ColumnDefinition>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
         <TextBlock
             Grid.Row="0"
             x:Uid="Main_Title"
             Style="{StaticResource PageTitleStyle}" />
         <RelativePanel 
-            Grid.Row="1" 
+            Grid.Row="1"
+            Grid.Column="0"
             Background="{ThemeResource SystemControlPageBackgroundChromeLowBrush}">
-            <Button x:Name="クリップボードから貼り付け"
-                RelativePanel.LeftOf="元画像"
-                >クリップボードから貼り付け
+            <Button x:Name="クリップボードから貼り付け">
+                <SymbolIcon Symbol="Paste"></SymbolIcon>
                 <Button.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="V" Modifiers="Control">
-
-                    </KeyboardAccelerator>
+                    <KeyboardAccelerator Key="V" Modifiers="Control"/>
                 </Button.KeyboardAccelerators>
                 <i:Interaction.Behaviors>
                     <ic:EventTriggerBehavior EventName="Click">
@@ -38,17 +42,35 @@
                     </ic:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
             </Button>
-            <Image x:Name="元画像"
-                   RelativePanel.AlignTopWithPanel="True"
-                   RelativePanel.AlignRightWithPanel="True"
-                Source="{Binding 元画像}"/>
+            <ScrollViewer x:Name="元画像"
+                RelativePanel.Below="クリップボードから貼り付け"
+                RelativePanel.AlignLeftWithPanel="True"
+                RelativePanel.AlignRightWithPanel="True"
+                VerticalScrollBarVisibility="Visible"
+                HorizontalScrollBarVisibility="Visible">
+                <Image
+                    Width="{Binding 画像Size.Width}"
+                    Height="{Binding 画像Size.Height}"
+                    Source="{Binding 元画像}"/>
+            </ScrollViewer>
+            <Slider x:Name="元画像倍率"
+                 RelativePanel.Below="元画像"
+                    RelativePanel.AlignLeftWithPanel="True"
+                    RelativePanel.AlignRightWithPanel="True"
+                Maximum="1000"
+                Orientation="Horizontal" Value="{Binding 元画像倍率, Mode=TwoWay}" />
             <Button x:Name="分割"
-                RelativePanel.Below="元画像"
+                RelativePanel.Below="元画像倍率"
                 RelativePanel.AlignHorizontalCenterWithPanel="True"
                     Command="{Binding 画像を分割するCommand}"
                 >分割</Button>
-            <ScrollViewer>
-                <ListView x:Name="分割画像"
+        </RelativePanel>
+        <tk:GridSplitter Grid.Column="1" Grid.Row="1" ResizeBehavior="BasedOnAlignment" ResizeDirection="Auto"/>
+        <ScrollViewer
+            Grid.Row="1"
+            Grid.Column="2"
+            >
+            <ListView x:Name="分割画像"
                 RelativePanel.Below="分割"
                           ItemsSource="{Binding 分割された画像}">
                 <ListView.ItemsPanel>
@@ -58,11 +80,10 @@
                 </ListView.ItemsPanel>
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                            <Image Stretch="None" Margin="5" Source="{Binding}"/>
+                        <Image Stretch="None" Margin="5" Source="{Binding}"/>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            </ScrollViewer>
-        </RelativePanel>
+        </ScrollViewer>
     </Grid>
 </Page>
