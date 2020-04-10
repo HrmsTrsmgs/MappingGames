@@ -17,13 +17,13 @@ namespace Marimo.MappingGames.Uwp.ViewModels
         public MainViewModel()
         {
         }
-        double _元画像倍率 = 100;
-        public double 元画像倍率
+        int _元画像倍率パーセント = 100;
+        public int 元画像倍率パーセント
         {
-            get => _元画像倍率;
+            get => _元画像倍率パーセント;
             set
             {
-                SetProperty(ref _元画像倍率, value);
+                SetProperty(ref _元画像倍率パーセント, value);
                 RaisePropertyChanged(nameof(画像Size));
             }
         }
@@ -49,7 +49,7 @@ namespace Marimo.MappingGames.Uwp.ViewModels
         
         public Size 画像Size
         {
-            get => new Size((int)(元画像Size.Width * 元画像倍率 / 100), (int)(元画像Size.Height * 元画像倍率 / 100));
+            get => new Size(元画像Size.Width * 元画像倍率パーセント / 100, 元画像Size.Height * 元画像倍率パーセント / 100);
         }
 
         public ObservableCollection<ImageSource> 分割された画像 { get; } = new ObservableCollection<ImageSource>();

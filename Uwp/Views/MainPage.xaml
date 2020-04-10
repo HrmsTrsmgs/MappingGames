@@ -12,7 +12,8 @@
     Style="{StaticResource PageStyle}"
     xmlns:prismMvvm="using:Prism.Windows.Mvvm"
     prismMvvm:ViewModelLocator.AutoWireViewModel="True" 
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    >
     <Grid x:Name="ContentArea" Margin="{StaticResource MediumLeftRightMargin}">
         <Grid.RowDefinitions>
             <RowDefinition Height="48" />
@@ -44,6 +45,7 @@
             </Button>
             <ScrollViewer x:Name="元画像"
                 RelativePanel.Below="クリップボードから貼り付け"
+                RelativePanel.Above="元画像倍率"
                 RelativePanel.AlignLeftWithPanel="True"
                 RelativePanel.AlignRightWithPanel="True"
                 VerticalScrollBarVisibility="Visible"
@@ -53,15 +55,23 @@
                     Height="{Binding 画像Size.Height}"
                     Source="{Binding 元画像}"/>
             </ScrollViewer>
+            <TextBlock x:Name="倍率タイトル"
+                       RelativePanel.Above="分割"
+                RelativePanel.AlignLeftWithPanel="True"
+                >元画像</TextBlock>
+            <TextBlock x:Name="倍率テキスト"
+                       RelativePanel.Above="分割"
+                       RelativePanel.RightOf="倍率タイトル"
+                       Text="{Binding 元画像倍率パーセント}"/>
             <Slider x:Name="元画像倍率"
-                 RelativePanel.Below="元画像"
-                    RelativePanel.AlignLeftWithPanel="True"
+                 RelativePanel.Above="分割"
+                    RelativePanel.RightOf="倍率テキスト"
                     RelativePanel.AlignRightWithPanel="True"
-                Maximum="1000"
-                Orientation="Horizontal" Value="{Binding 元画像倍率, Mode=TwoWay}" />
+                Maximum="2000"
+                Orientation="Horizontal" Value="{Binding 元画像倍率パーセント, Mode=TwoWay}" />
             <Button x:Name="分割"
-                RelativePanel.Below="元画像倍率"
                 RelativePanel.AlignHorizontalCenterWithPanel="True"
+                    RelativePanel.AlignBottomWithPanel="True"
                     Command="{Binding 画像を分割するCommand}"
                 >分割</Button>
         </RelativePanel>

@@ -14,6 +14,8 @@ using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Resources;
 using Windows.UI.Xaml;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.UI.ViewManagement;
+using Windows.Foundation;
 
 namespace Marimo.MappingGames.Uwp
 {
@@ -53,7 +55,13 @@ namespace Marimo.MappingGames.Uwp
         {
             await base.OnInitializeAsync(args);
             await ThemeSelectorService.InitializeAsync().ConfigureAwait(false);
+
             Clipboard.SetContent(new DataPackage());
+
+            var bounds = ApplicationView.GetForCurrentView().VisibleBounds;
+
+            ApplicationView.PreferredLaunchViewSize = new Size((int)bounds.Width, (int)bounds.Height);
+            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
             // We are remapping the default ViewNamePage and ViewNamePageViewModel naming to ViewNamePage and ViewNameViewModel to
             // gain better code reuse with other frameworks and pages within Windows Template Studio
             ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver((viewType) =>
