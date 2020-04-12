@@ -7,7 +7,7 @@
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
     xmlns:tk="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:ctrl="using:Microsoft.UI.Xaml.Controls"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:vm="using:Marimo.MappingGames.Uwp.ViewModels"
     Style="{StaticResource PageStyle}"
     xmlns:prismMvvm="using:Prism.Windows.Mvvm"
@@ -43,33 +43,124 @@
                     </ic:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
             </Button>
-            <ScrollViewer x:Name="元画像"
+            <tk:DockPanel
+                x:Name="元画像"
                 RelativePanel.Below="クリップボードから貼り付け"
-                RelativePanel.Above="元画像倍率"
+                RelativePanel.Above="分割"
                 RelativePanel.AlignLeftWithPanel="True"
-                RelativePanel.AlignRightWithPanel="True"
-                VerticalScrollBarVisibility="Visible"
-                HorizontalScrollBarVisibility="Visible">
-                <Image
-                    Width="{Binding 画像Size.Width}"
-                    Height="{Binding 画像Size.Height}"
-                    Source="{Binding 元画像}"/>
-            </ScrollViewer>
-            <TextBlock x:Name="倍率タイトル"
-                       RelativePanel.Above="分割"
-                RelativePanel.AlignLeftWithPanel="True"
-                >元画像</TextBlock>
-            <TextBlock x:Name="倍率テキスト"
-                       RelativePanel.Above="分割"
-                       RelativePanel.RightOf="倍率タイトル"
-                       Text="{Binding 元画像倍率パーセント}"/>
-            <Slider x:Name="元画像倍率"
-                 RelativePanel.Above="分割"
-                    RelativePanel.RightOf="倍率テキスト"
-                    RelativePanel.AlignRightWithPanel="True"
-                Maximum="2000"
-                Orientation="Horizontal" Value="{Binding 元画像倍率パーセント, Mode=TwoWay}" />
-            <Button x:Name="分割"
+                RelativePanel.AlignRightWithPanel="True">
+                <tk:DockPanel
+                    tk:DockPanel.Dock="Bottom"
+                    Margin="5">
+                    <TextBlock VerticalAlignment="Center">画像倍率</TextBlock>
+                    <TextBlock VerticalAlignment="Center" Text="{Binding 元画像倍率パーセント}"/>
+                    <TextBlock VerticalAlignment="Center" >%</TextBlock>
+                    <Slider
+                        Margin="5"
+                        Maximum="2000"
+                        Orientation="Horizontal"
+                        Value="{Binding 元画像倍率パーセント, Mode=TwoWay}" />
+                </tk:DockPanel>
+                <Grid tk:DockPanel.Dock="Top">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <tk:DockPanel
+                        Grid.Column="0"
+                        Margin="5">
+                        <TextBlock VerticalAlignment="Center">分割範囲 左右</TextBlock>
+                        <TextBlock VerticalAlignment="Center" Text="{Binding 分割領域の左限}"/>
+                        <TextBlock VerticalAlignment="Center">～</TextBlock>
+                        <TextBlock VerticalAlignment="Center" Text="{Binding 分割領域の右限}"/>
+                        <tk:RangeSelector
+                            Margin="5"
+                            RangeMin="{Binding 分割領域の左限, Mode=TwoWay}"
+                            RangeMax="{Binding 分割領域の右限, Mode=TwoWay}"
+                            Maximum="{Binding 元画像サイズ.Width, Mode=TwoWay}"/>
+                    </tk:DockPanel>
+                    <tk:DockPanel
+                        Grid.Column="1"
+                        Margin="5">
+                        <TextBlock VerticalAlignment="Center">分割範囲 上下</TextBlock>
+                        <TextBlock VerticalAlignment="Center" Text="{Binding 分割領域の上限}"/>
+                        <TextBlock VerticalAlignment="Center">～</TextBlock>
+                        <TextBlock VerticalAlignment="Center" Text="{Binding 分割領域の下限}"/>
+                        <tk:RangeSelector
+                            Margin="5"
+                            RangeMin="{Binding 分割領域の上限, Mode=TwoWay}"
+                            RangeMax="{Binding 分割領域の下限, Mode=TwoWay}"
+                            Maximum="{Binding 元画像サイズ.Height, Mode=TwoWay}"/>
+                    </tk:DockPanel>
+                    <tk:DockPanel
+                        Grid.Column="0"
+                        Grid.Row="1"
+                        Margin="5">
+                        <TextBlock VerticalAlignment="Center">分割サイズ 幅</TextBlock>
+                        <TextBlock VerticalAlignment="Center" Text="{Binding 分割サイズ幅}"/>
+                        <Slider
+                        Margin="5"
+                        Maximum="64"
+                        Orientation="Horizontal"
+                        Value="{Binding 分割サイズ幅, Mode=TwoWay}" />
+                    </tk:DockPanel>
+                    <tk:DockPanel
+                        Grid.Column="1"
+                        Grid.Row="1"
+                        Margin="5">
+                        <TextBlock VerticalAlignment="Center">分割サイズ 高さ</TextBlock>
+                        <TextBlock VerticalAlignment="Center" Text="{Binding 分割サイズ高さ}"/>
+                        <Slider
+                        Margin="5"
+                        Maximum="64"
+                        Orientation="Horizontal"
+                        Value="{Binding 分割サイズ高さ, Mode=TwoWay}" />
+                    </tk:DockPanel>
+                </Grid>
+                <ScrollViewer>
+                    <Grid>
+                        <Image
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Width="{Binding 画像サイズ.Width}"
+                            Height="{Binding 画像サイズ.Height}"
+                            Source="{Binding 元画像}"/>
+                        <Canvas>
+                            <Rectangle
+                                Canvas.Top="{Binding 分割領域表示の左上.Y, Mode=TwoWay}"
+                                Canvas.Left="{Binding 分割領域表示の左上.X, Mode=TwoWay}"
+                                Stroke="Red"
+                                StrokeThickness="5"
+                                Width="{Binding 分割領域表示のサイズ.Width, Mode=TwoWay}"
+                                Height="{Binding 分割領域表示のサイズ.Height, Mode=TwoWay}"/>
+                        </Canvas>
+                        <ItemsControl ItemsSource="{Binding 格子}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <Canvas/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Line
+                                        X1="{Binding X1}"
+                                        Y1="{Binding Y1}"
+                                        X2="{Binding X2}"
+                                        Y2="{Binding Y2}"
+                                        Stroke="Red"
+                                        StrokeThickness="3"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Grid>
+                </ScrollViewer>
+            </tk:DockPanel>
+            <Button
+                x:Name="分割"
                 RelativePanel.AlignHorizontalCenterWithPanel="True"
                     RelativePanel.AlignBottomWithPanel="True"
                     Command="{Binding 画像を分割するCommand}"

@@ -62,6 +62,11 @@ namespace Marimo.MappingGames.Uwp
 
             ApplicationView.PreferredLaunchViewSize = new Size((int)bounds.Width, (int)bounds.Height);
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
+
+            UnhandledException += (sender, e) =>
+            {
+
+            };
             // We are remapping the default ViewNamePage and ViewNamePageViewModel naming to ViewNamePage and ViewNameViewModel to
             // gain better code reuse with other frameworks and pages within Windows Template Studio
             ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver((viewType) =>
