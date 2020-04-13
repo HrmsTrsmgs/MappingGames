@@ -3,21 +3,18 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Windows.Input;
 using Prism.Commands;
 using Prism.Windows.Mvvm;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Marimo.MappingGames.Uwp.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        public MainViewModel()
-        {
-        }
         int _元画像倍率パーセント = 100;
         public int 元画像倍率パーセント
         {
@@ -194,7 +191,7 @@ namespace Marimo.MappingGames.Uwp.ViewModels
                 (分割領域の右限 - 分割領域の左限) * 元画像倍率パーセント / 100,
                 (分割領域の下限 - 分割領域の上限) * 元画像倍率パーセント / 100);
 
-        public ObservableCollection<ImageSource> 分割された画像 { get; } = new ObservableCollection<ImageSource>();
+        public ObservableCollection<WriteableBitmap> 分割された画像 { get; } = new ObservableCollection<WriteableBitmap>();
 
         ICommand _画像を取り込むCommand;
         public ICommand 画像を取り込むCommand
@@ -219,10 +216,6 @@ namespace Marimo.MappingGames.Uwp.ViewModels
                             分割領域の下限 = 元画像サイズ.Height;
                             分割領域の左限 = 0;
                             分割領域の右限 = 元画像サイズ.Width;
-                            分割領域の上限 = 93;
-                            分割領域の下限 = 617;
-                            分割領域の左限 = 25;
-                            分割領域の右限 = 553;
                             元画像 = writeable;
                         });
                 }
@@ -238,7 +231,7 @@ namespace Marimo.MappingGames.Uwp.ViewModels
                 if (_画像を分割するCommand == null)
                 {
                     _画像を分割するCommand = new DelegateCommand<object>(
-                        param =>
+                        async param =>
                         {
                             分割された画像.Clear();
                             var buffer = new byte[分割サイズ幅 * 分割サイズ高さ * 4];
@@ -260,7 +253,12 @@ namespace Marimo.MappingGames.Uwp.ViewModels
                                     }
                                     var block = new WriteableBitmap(分割サイズ幅, 分割サイズ高さ);
                                     buffer.CopyTo(block.PixelBuffer);
-                                    分割された画像.Add(block);
+
+                                    if (!分割された画像.Any(x => block.PixelBuffer.ToArray().Zip(x.PixelBuffer.ToArray(),
+                                        (x1, x2) => x1 == x2).All(x3 => x3)))
+                                    {
+                                        分割された画像.Add(block);
+                                    }
                                 }
                             }
                         });
