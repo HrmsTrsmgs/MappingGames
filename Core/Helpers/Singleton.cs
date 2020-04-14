@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 
-namespace Marimo.MappingGames.Uwp.Core.Helpers
+namespace Marimo.MappingGames.Core.Helpers
 {
     public static class Singleton<T>
         where T : new()

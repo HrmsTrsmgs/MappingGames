@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 using Newtonsoft.Json;
 
-namespace Marimo.MappingGames.Uwp.Core.Helpers
+namespace Marimo.MappingGames.Core.Helpers
 {
     public static class Json
     {

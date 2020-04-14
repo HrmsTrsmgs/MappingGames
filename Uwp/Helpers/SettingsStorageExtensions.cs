@@ -1,8 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-
-using Marimo.MappingGames.Uwp.Core.Helpers;
+using Marimo.MappingGames.Core.Helpers;
+using Marimo.MappingGames.Uwp.Helpers;
 
 using Windows.Storage;
 using Windows.Storage.Streams;

@@ -231,7 +231,7 @@ namespace Marimo.MappingGames.Uwp.ViewModels
                 if (_画像を分割するCommand == null)
                 {
                     _画像を分割するCommand = new DelegateCommand<object>(
-                        async param =>
+                        param =>
                         {
                             分割された画像.Clear();
                             var buffer = new byte[分割サイズ幅 * 分割サイズ高さ * 4];

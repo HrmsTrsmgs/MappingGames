@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <RootNamespace>Marimo.MappingGames.Uwp.Core</RootNamespace>
-    <AssemblyName>Marimo.MappingGames.Uwp.Core</AssemblyName>
+    <RootNamespace>Marimo.MappingGamesCore</RootNamespace>
+    <AssemblyName>Marimo.MappingGames.Core</AssemblyName>
   </PropertyGroup>
 
    <ItemGroup>
