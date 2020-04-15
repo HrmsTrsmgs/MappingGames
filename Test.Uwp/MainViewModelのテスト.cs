@@ -1,18 +1,18 @@
 ﻿
 using System;
+using FluentAssertions;
 using Marimo.MappingGames.Uwp.ViewModels;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 
 namespace Test.Uwp
 {
-    [TestClass]
     public class MainViewModelのテスト
     {
         MainViewModel テスト対象 = new MainViewModel();
-        [TestMethod]
+        [Fact]
         public void 元画像倍率パーセントの初期値は100です()
         {
-            Assert.AreEqual(テスト対象.元画像倍率パーセント, 100);
+            テスト対象.元画像倍率パーセント.Should().Be(100);
         }
     }
 }
