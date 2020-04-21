@@ -101,24 +101,24 @@
                         Grid.Row="1"
                         Margin="5">
                         <TextBlock VerticalAlignment="Center">分割サイズ 幅</TextBlock>
-                        <TextBlock VerticalAlignment="Center" Text="{Binding 分割サイズ幅}"/>
+                        <TextBlock VerticalAlignment="Center" Text="{Binding 分割サイズの幅}"/>
                         <Slider
                         Margin="5"
                         Maximum="64"
                         Orientation="Horizontal"
-                        Value="{Binding 分割サイズ幅, Mode=TwoWay}" />
+                        Value="{Binding 分割サイズの幅, Mode=TwoWay}" />
                     </tk:DockPanel>
                     <tk:DockPanel
                         Grid.Column="1"
                         Grid.Row="1"
                         Margin="5">
                         <TextBlock VerticalAlignment="Center">分割サイズ 高さ</TextBlock>
-                        <TextBlock VerticalAlignment="Center" Text="{Binding 分割サイズ高さ}"/>
+                        <TextBlock VerticalAlignment="Center" Text="{Binding 分割サイズの高さ}"/>
                         <Slider
                         Margin="5"
                         Maximum="64"
                         Orientation="Horizontal"
-                        Value="{Binding 分割サイズ高さ, Mode=TwoWay}" />
+                        Value="{Binding 分割サイズの高さ, Mode=TwoWay}" />
                     </tk:DockPanel>
                 </Grid>
                 <ScrollViewer>

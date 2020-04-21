@@ -29,25 +29,25 @@ namespace Marimo.MappingGames.Uwp.ViewModels
             }
         }
 
-        int _分割サイズ幅 = 48;
+        int _分割サイズの幅 = 32;
 
-        public int 分割サイズ幅
+        public int 分割サイズの幅
         {
-            get => _分割サイズ幅;
+            get => _分割サイズの幅;
             set
             {
-                SetProperty(ref _分割サイズ幅, value);
+                SetProperty(ref _分割サイズの幅, value);
                 RaisePropertyChanged(nameof(格子));
             }
         }
-        int _分割サイズ高さ = 48;
+        int _分割サイズの高さ = 32;
 
-        public int 分割サイズ高さ
+        public int 分割サイズの高さ
         {
-            get => _分割サイズ高さ;
+            get => _分割サイズの高さ;
             set
             {
-                SetProperty(ref _分割サイズ高さ, value);
+                SetProperty(ref _分割サイズの高さ, value);
                 RaisePropertyChanged(nameof(格子));
             }
         }
@@ -159,7 +159,7 @@ namespace Marimo.MappingGames.Uwp.ViewModels
             get
             {
                 if (元画像 == null) yield break;
-                for (var offsetWidth = 0; offsetWidth < 分割領域のサイズ.Width; offsetWidth += 分割サイズ幅)
+                for (var offsetWidth = 0; offsetWidth < 分割領域のサイズ.Width; offsetWidth += 分割サイズの幅)
                 {
                     yield return new LineViewModel(
                         分割領域表示の左上.X + offsetWidth * 元画像倍率パーセント / 100,
@@ -167,7 +167,7 @@ namespace Marimo.MappingGames.Uwp.ViewModels
                         分割領域表示の左上.X + offsetWidth * 元画像倍率パーセント / 100,
                         分割領域表示の左上.Y + 分割領域のサイズ.Height * 元画像倍率パーセント / 100);
                 }
-                for (var offsetHeight = 0; offsetHeight < 分割領域のサイズ.Height; offsetHeight += 分割サイズ高さ)
+                for (var offsetHeight = 0; offsetHeight < 分割領域のサイズ.Height; offsetHeight += 分割サイズの高さ)
                 {
                     yield return new LineViewModel(
                         分割領域表示の左上.X + 0 * 元画像倍率パーセント / 100,
@@ -234,24 +234,24 @@ namespace Marimo.MappingGames.Uwp.ViewModels
                         param =>
                         {
                             分割された画像.Clear();
-                            var buffer = new byte[分割サイズ幅 * 分割サイズ高さ * 4];
+                            var buffer = new byte[分割サイズの幅 * 分割サイズの高さ * 4];
                             元画像.PixelBuffer.ToArray();
                             var a = 元画像.PixelBuffer.ToArray();
-                            for (var offsetWidth = 分割領域の左限; offsetWidth < 分割領域のサイズ.Width - 分割サイズ幅; offsetWidth += 分割サイズ幅)
+                            for (var offsetWidth = 分割領域の左限; offsetWidth < 分割領域のサイズ.Width - 分割サイズの幅; offsetWidth += 分割サイズの幅)
                             {
-                                for (var offsetHeight = 分割領域の上限; offsetHeight < 分割領域のサイズ.Height - 分割サイズ高さ; offsetHeight += 分割サイズ高さ)
+                                for (var offsetHeight = 分割領域の上限; offsetHeight < 分割領域のサイズ.Height - 分割サイズの高さ; offsetHeight += 分割サイズの高さ)
                                 {
-                                    for (int i = 0; i < 分割サイズ高さ; i++)
+                                    for (int i = 0; i < 分割サイズの高さ; i++)
                                     {
 
                                         Array.Copy(
                                             a,
                                             (offsetWidth + (i + offsetHeight) * 元画像.PixelWidth) * 4,
                                             buffer,
-                                            i * 分割サイズ幅 * 4,
-                                            分割サイズ幅 * 4);
+                                            i * 分割サイズの幅 * 4,
+                                            分割サイズの幅 * 4);
                                     }
-                                    var block = new WriteableBitmap(分割サイズ幅, 分割サイズ高さ);
+                                    var block = new WriteableBitmap(分割サイズの幅, 分割サイズの高さ);
                                     buffer.CopyTo(block.PixelBuffer);
 
                                     if (!分割された画像.Any(x => block.PixelBuffer.ToArray().Zip(x.PixelBuffer.ToArray(),

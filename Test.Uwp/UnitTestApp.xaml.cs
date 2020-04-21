@@ -30,6 +30,7 @@ namespace Test.Uwp
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            
         }
 
         /// <summary>
@@ -72,8 +73,11 @@ namespace Test.Uwp
             // Ensure the current window is active
             Window.Current.Activate();
 
+            MainWindowForTest = Window.Current;
             Microsoft.VisualStudio.TestPlatform.TestExecutor.UnitTestClient.Run(e.Arguments);
         }
+
+        public static Window MainWindowForTest { get; private set; }
 
         /// <summary>
         /// Invoked when Navigation to a certain page fails
