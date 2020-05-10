@@ -1,6 +1,8 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Marimo.MappingGames.Uwp.ViewModels;
@@ -11,6 +13,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Xunit;
+using static Marimo.MappingGames.Uwp.ViewModels.MainViewModel;
 
 namespace Test.Uwp
 {
@@ -151,6 +154,390 @@ namespace Test.Uwp
         {
             テスト対象.元画像 = await NewWriteableBitmap();
             変更済みプロパティ.Should().Contain(nameof(テスト対象.元画像));
+        }
+
+        [Fact]
+        public void 元画像サイズの初期値は0_0です()
+        {
+            テスト対象.元画像サイズ.Should().Be(new Size(0, 0));
+        }
+
+        [Fact]
+        public void 元画像サイズは変更できます()
+        {
+            テスト対象.元画像サイズ = new Size(10, 10);
+            テスト対象.元画像サイズ.Should().Be(new Size(10, 10));
+        }
+
+        [Fact]
+        public void 元画像サイズの変更は通知されます()
+        {
+            テスト対象.元画像サイズ = new Size(10, 10);
+            変更済みプロパティ.Should().Contain(nameof(テスト対象.元画像サイズ));
+        }
+
+        [Fact]
+        public void 元画像サイズの変更による画像サイズの変更は通知されます()
+        {
+            テスト対象.元画像サイズ = new Size(10, 10);
+            変更済みプロパティ.Should().Contain(nameof(テスト対象.画像サイズ));
+        }
+
+        [Fact]
+        public void 元画像サイズの変更による分割領域表示の左上の変更は通知されます()
+        {
+            テスト対象.元画像サイズ = new Size(10, 10);
+            変更済みプロパティ.Should().Contain(nameof(テスト対象.分割領域表示の左上));
+        }
+
+        [Fact]
+        public void 元画像サイズの変更による分割領域表示のサイズの変更は通知されます()
+        {
+            テスト対象.元画像サイズ = new Size(10, 10);
+            変更済みプロパティ.Should().Contain(nameof(テスト対象.分割領域表示のサイズ));
+        }
+
+        [Fact]
+        public void 元画像サイズの変更による格子の変更は通知されます()
+        {
+            テスト対象.元画像サイズ = new Size(10, 10);
+            変更済みプロパティ.Should().Contain(nameof(テスト対象.格子));
+        }
+
+        [Fact]
+        public void 分割領域の上限の初期値は0です()
+        {
+            テスト対象.分割領域の上限.Should().Be(0);
+        }
+
+        [Fact]
+        public void 分割領域の上限は変更できます()
+        {
+            テスト対象.分割領域の上限 = 100;
+            テスト対象.分割領域の上限.Should().Be(100);
+        }
+
+        [Fact]
+        public void 分割領域の上限の変更は通知されます()
+        {
+            テスト対象.分割領域の上限 = 100;
+            変更済みプロパティ.Should().Contain(nameof(テスト対象.分割領域の上限));
+        }
+
+        [Fact]
+        public void 分割領域の上限の変更による分割領域のサイズは通知されます()
+        {
+            テスト対象.分割領域の上限 = 100;
+            変更済みプロパティ.Should().Contain(nameof(テスト対象.分割領域のサイズ));
+        }
+
+        [Fact]
+        public void 分割領域の上限の変更による分割領域表示の左上は通知されます()
+        {
+            テスト対象.分割領域の上限 = 100;
+            変更済みプロパティ.Should().Contain(nameof(テスト対象.分割領域表示の左上));
+        }
+
+        [Fact]
+        public void 分割領域の上限の変更による分割領域表示のサイズは通知されます()
+        {
+            テスト対象.分割領域の上限 = 100;
+            変更済みプロパティ.Should().Contain(nameof(テスト対象.分割領域表示のサイズ));
+        }
+        [Fact]
+        public void 分割領域の上限の変更による格子は通知されます()
+        {
+            テスト対象.分割領域の上限 = 100;
+            変更済みプロパティ.Should().Contain(nameof(テスト対象.格子));
+        }
+
+        [Fact]
+        public void 分割領域の下限の初期値は0です()
+        {
+            テスト対象.分割領域の下限.Should().Be(0);
+        }
+
+        [Fact]
+        public void 分割領域の下限は変更できます()
+        {
+            テスト対象.分割領域の下限 = 100;
+            テスト対象.分割領域の下限.Should().Be(100);
+        }
+
+        [Fact]
+        public void 分割領域の下限の変更は通知されます()
+        {
+            テスト対象.分割領域の下限 = 100;
+            変更済みプロパティ.Should().Contain(nameof(テスト対象.分割領域の下限));
+        }
+
+        [Fact]
+        public void 分割領域の下限の変更による分割領域のサイズは通知されます()
+        {
+            テスト対象.分割領域の下限 = 100;
+            変更済みプロパティ.Should().Contain(nameof(テスト対象.分割領域のサイズ));
+        }
+
+        [Fact]
+        public void 分割領域の下限の変更による分割領域表示の左上は通知されます()
+        {
+            テスト対象.分割領域の下限 = 100;
+            変更済みプロパティ.Should().Contain(nameof(テスト対象.分割領域表示の左上));
+        }
+
+        [Fact]
+        public void 分割領域の下限の変更による分割領域表示のサイズは通知されます()
+        {
+            テスト対象.分割領域の下限 = 100;
+            変更済みプロパティ.Should().Contain(nameof(テスト対象.分割領域表示のサイズ));
+        }
+        [Fact]
+        public void 分割領域の下限の変更による格子は通知されます()
+        {
+            テスト対象.分割領域の下限 = 100;
+            変更済みプロパティ.Should().Contain(nameof(テスト対象.格子));
+        }
+
+        [Fact]
+        public void 分割領域の左限の初期値は0です()
+        {
+            テスト対象.分割領域の左限.Should().Be(0);
+        }
+
+        [Fact]
+        public void 分割領域の左限は変更できます()
+        {
+            テスト対象.分割領域の左限 = 100;
+            テスト対象.分割領域の左限.Should().Be(100);
+        }
+
+        [Fact]
+        public void 分割領域の左限の変更は通知されます()
+        {
+            テスト対象.分割領域の左限 = 100;
+            変更済みプロパティ.Should().Contain(nameof(テスト対象.分割領域の左限));
+        }
+
+        [Fact]
+        public void 分割領域の左限の変更による分割領域のサイズは通知されます()
+        {
+            テスト対象.分割領域の左限 = 100;
+            変更済みプロパティ.Should().Contain(nameof(テスト対象.分割領域のサイズ));
+        }
+
+        [Fact]
+        public void 分割領域の左限の変更による分割領域表示の左上は通知されます()
+        {
+            テスト対象.分割領域の左限 = 100;
+            変更済みプロパティ.Should().Contain(nameof(テスト対象.分割領域表示の左上));
+        }
+
+        [Fact]
+        public void 分割領域の左限の変更による分割領域表示のサイズは通知されます()
+        {
+            テスト対象.分割領域の左限 = 100;
+            変更済みプロパティ.Should().Contain(nameof(テスト対象.分割領域表示のサイズ));
+        }
+        [Fact]
+        public void 分割領域の左限の変更による格子は通知されます()
+        {
+            テスト対象.分割領域の左限 = 100;
+            変更済みプロパティ.Should().Contain(nameof(テスト対象.格子));
+        }
+
+        [Fact]
+        public void 分割領域の右限の初期値は0です()
+        {
+            テスト対象.分割領域の右限.Should().Be(0);
+        }
+
+        [Fact]
+        public void 分割領域の右限は変更できます()
+        {
+            テスト対象.分割領域の右限 = 100;
+            テスト対象.分割領域の右限.Should().Be(100);
+        }
+
+        [Fact]
+        public void 分割領域の右限の変更は通知されます()
+        {
+            テスト対象.分割領域の右限 = 100;
+            変更済みプロパティ.Should().Contain(nameof(テスト対象.分割領域の右限));
+        }
+
+        [Fact]
+        public void 分割領域の右限の変更による分割領域のサイズは通知されます()
+        {
+            テスト対象.分割領域の右限 = 100;
+            変更済みプロパティ.Should().Contain(nameof(テスト対象.分割領域のサイズ));
+        }
+
+        [Fact]
+        public void 分割領域の右限の変更による分割領域表示の左上は通知されます()
+        {
+            テスト対象.分割領域の右限 = 100;
+            変更済みプロパティ.Should().Contain(nameof(テスト対象.分割領域表示の左上));
+        }
+
+        [Fact]
+        public void 分割領域の右限の変更による分割領域表示のサイズは通知されます()
+        {
+            テスト対象.分割領域の右限 = 100;
+            変更済みプロパティ.Should().Contain(nameof(テスト対象.分割領域表示のサイズ));
+        }
+        [Fact]
+        public void 分割領域の右限の変更による格子は通知されます()
+        {
+            テスト対象.分割領域の右限 = 100;
+            変更済みプロパティ.Should().Contain(nameof(テスト対象.格子));
+        }
+
+        [Fact]
+        public void 格子は初期状態は0項目です()
+        {
+            テスト対象.格子.Should().BeEmpty();
+        }
+
+        [Fact]
+        public async Task 格子は取得できます()
+        {
+            テスト対象.元画像 = await NewWriteableBitmap();
+            テスト対象.分割領域の左限 = 0;
+            テスト対象.分割領域の右限 = 99;
+            テスト対象.分割領域の上限 = 0;
+            テスト対象.分割領域の下限 = 99;
+            テスト対象.分割サイズの幅 = 100;
+            テスト対象.分割サイズの高さ = 100;
+            テスト対象.元画像倍率パーセント = 100;
+            テスト対象.格子.Should().HaveCount(2);
+            テスト対象.格子.Should().Contain(new LineViewModel(0, 0, 99, 0));
+            テスト対象.格子.Should().Contain(new LineViewModel(0, 0, 0, 99));
+        }
+        [Fact]
+        public void 格子は元画像がなければ取得できます()
+        {
+            テスト対象.分割領域の左限 = 0;
+            テスト対象.分割領域の右限 = 99;
+            テスト対象.分割領域の上限 = 0;
+            テスト対象.分割領域の下限 = 99;
+            テスト対象.分割サイズの幅 = 100;
+            テスト対象.分割サイズの高さ = 100;
+            テスト対象.元画像倍率パーセント = 100;
+            テスト対象.格子.Should().BeEmpty();
+        }
+
+        [Fact]
+        public async Task 格子は分割領域が左右に広がれば増えます()
+        {
+            テスト対象.元画像 = await NewWriteableBitmap();
+            テスト対象.分割領域の左限 = 0;
+            テスト対象.分割領域の右限 = 198;
+            テスト対象.分割領域の上限 = 0;
+            テスト対象.分割領域の下限 = 99;
+            テスト対象.分割サイズの幅 = 100;
+            テスト対象.分割サイズの高さ = 100;
+            テスト対象.元画像倍率パーセント = 100;
+            テスト対象.格子.Should().HaveCount(3);
+            テスト対象.格子.Should().Contain(new LineViewModel(0, 0, 198, 0));
+            テスト対象.格子.Should().Contain(new LineViewModel(0, 0, 0, 99));
+            テスト対象.格子.Should().Contain(new LineViewModel(100, 0, 100, 99));
+        }
+
+        [Fact]
+        public async Task 格子は分割領域が上下に広がれば増えます()
+        {
+            テスト対象.元画像 = await NewWriteableBitmap();
+            テスト対象.分割領域の左限 = 0;
+            テスト対象.分割領域の右限 = 99;
+            テスト対象.分割領域の上限 = 0;
+            テスト対象.分割領域の下限 = 198;
+            テスト対象.分割サイズの幅 = 100;
+            テスト対象.分割サイズの高さ = 100;
+            テスト対象.格子.Should().HaveCount(3);
+            テスト対象.格子.Should().Contain(new LineViewModel(0, 0, 99, 0));
+            テスト対象.格子.Should().Contain(new LineViewModel(0, 0, 0, 198));
+            テスト対象.格子.Should().Contain(new LineViewModel(0, 100, 99, 100));
+        }
+
+        [Fact]
+        public async Task 格子は元画像倍率が変化すれば比例して変化します()
+        {
+            テスト対象.元画像 = await NewWriteableBitmap();
+            テスト対象.分割領域の左限 = 0;
+            テスト対象.分割領域の右限 = 99;
+            テスト対象.分割領域の上限 = 0;
+            テスト対象.分割領域の下限 = 99;
+            テスト対象.分割サイズの幅 = 100;
+            テスト対象.分割サイズの高さ = 100;
+            テスト対象.元画像倍率パーセント = 200;
+            テスト対象.格子.Should().HaveCount(2);
+            テスト対象.格子.Should().Contain(new LineViewModel(0, 0, 198, 0));
+            テスト対象.格子.Should().Contain(new LineViewModel(0, 0, 0, 198));
+        }
+
+        [Fact]
+        public async Task 格子は分割領域が左右に移動すればそれに伴い移動します()
+        {
+            テスト対象.元画像 = await NewWriteableBitmap();
+            テスト対象.分割領域の左限 = 100;
+            テスト対象.分割領域の右限 = 199;
+            テスト対象.分割領域の上限 = 0;
+            テスト対象.分割領域の下限 = 99;
+            テスト対象.分割サイズの幅 = 100;
+            テスト対象.分割サイズの高さ = 100;
+            テスト対象.元画像倍率パーセント = 100;
+            テスト対象.格子.Should().HaveCount(2);
+            テスト対象.格子.Should().Contain(new LineViewModel(100, 0, 199, 0));
+            テスト対象.格子.Should().Contain(new LineViewModel(100, 0, 100, 99));
+        }
+
+        [Fact]
+        public async Task 格子は分割領域が上下に移動すればそれに伴い移動します()
+        {
+            テスト対象.元画像 = await NewWriteableBitmap();
+            テスト対象.分割領域の左限 = 0;
+            テスト対象.分割領域の右限 = 99;
+            テスト対象.分割領域の上限 = 100;
+            テスト対象.分割領域の下限 = 199;
+            テスト対象.分割サイズの幅 = 100;
+            テスト対象.分割サイズの高さ = 100;
+            テスト対象.元画像倍率パーセント = 100;
+            テスト対象.格子.Should().HaveCount(2);
+            テスト対象.格子.Should().Contain(new LineViewModel(0, 100, 99, 100));
+            テスト対象.格子.Should().Contain(new LineViewModel(0, 100, 0, 199));
+        }
+
+        [Fact]
+        public async Task 格子は幅に合わせた分割サイズで取得できます()
+        {
+            テスト対象.元画像 = await NewWriteableBitmap();
+            テスト対象.分割領域の左限 = 0;
+            テスト対象.分割領域の右限 = 99;
+            テスト対象.分割領域の上限 = 0;
+            テスト対象.分割領域の下限 = 99;
+            テスト対象.分割サイズの幅 = 50;
+            テスト対象.分割サイズの高さ = 100;
+            テスト対象.元画像倍率パーセント = 100;
+            テスト対象.格子.Should().HaveCount(3);
+            テスト対象.格子.Should().Contain(new LineViewModel(0, 0, 99, 0));
+            テスト対象.格子.Should().Contain(new LineViewModel(50, 0, 50, 99));
+            テスト対象.格子.Should().Contain(new LineViewModel(0, 0, 0, 99));
+        }
+        [Fact]
+        public async Task 格子は高さに合わせた分割サイズで取得できます()
+        {
+            テスト対象.元画像 = await NewWriteableBitmap();
+            テスト対象.分割領域の左限 = 0;
+            テスト対象.分割領域の右限 = 99;
+            テスト対象.分割領域の上限 = 0;
+            テスト対象.分割領域の下限 = 99;
+            テスト対象.分割サイズの幅 = 100;
+            テスト対象.分割サイズの高さ = 50;
+            テスト対象.元画像倍率パーセント = 100;
+            テスト対象.格子.Should().HaveCount(3);
+            テスト対象.格子.Should().Contain(new LineViewModel(0, 0, 99, 0));
+            テスト対象.格子.Should().Contain(new LineViewModel(0, 0, 0, 99));
+            テスト対象.格子.Should().Contain(new LineViewModel(0, 50, 99, 50));
         }
     }
 }

@@ -138,7 +138,7 @@ namespace Marimo.MappingGames.Uwp.ViewModels
             }
         }
 
-        public class LineViewModel : ViewModelBase
+        public struct LineViewModel
         {
             public LineViewModel(int x1, int y1, int x2, int y2)
             {
