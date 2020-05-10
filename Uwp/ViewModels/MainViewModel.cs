@@ -165,21 +165,21 @@ namespace Marimo.MappingGames.Uwp.ViewModels
                         分割領域表示の左上.X + offsetWidth * 元画像倍率パーセント / 100,
                         分割領域表示の左上.Y + 0 * 元画像倍率パーセント / 100,
                         分割領域表示の左上.X + offsetWidth * 元画像倍率パーセント / 100,
-                        分割領域表示の左上.Y + 分割領域のサイズ.Height * 元画像倍率パーセント / 100);
+                        分割領域表示の左上.Y + 分割領域のサイズ.Height * 元画像倍率パーセント / 100 - 1);
                 }
                 for (var offsetHeight = 0; offsetHeight < 分割領域のサイズ.Height; offsetHeight += 分割サイズの高さ)
                 {
                     yield return new LineViewModel(
                         分割領域表示の左上.X + 0 * 元画像倍率パーセント / 100,
                         分割領域表示の左上.Y + offsetHeight * 元画像倍率パーセント / 100,
-                        分割領域表示の左上.X + 分割領域のサイズ.Width * 元画像倍率パーセント / 100,
+                        分割領域表示の左上.X + 分割領域のサイズ.Width * 元画像倍率パーセント / 100 - 1,
                         分割領域表示の左上.Y + offsetHeight * 元画像倍率パーセント / 100);
                 }
             }
         }
 
         public Size 分割領域のサイズ =>
-            new Size(分割領域の右限 - 分割領域の左限, 分割領域の下限 - 分割領域の上限);
+            new Size(分割領域の右限 - 分割領域の左限 + 1, 分割領域の下限 - 分割領域の上限 + 1);
 
         public Point 分割領域表示の左上 =>
             new Point(

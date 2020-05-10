@@ -431,14 +431,14 @@ namespace Test.Uwp
         {
             テスト対象.元画像 = await NewWriteableBitmap();
             テスト対象.分割領域の左限 = 0;
-            テスト対象.分割領域の右限 = 198;
+            テスト対象.分割領域の右限 = 199;
             テスト対象.分割領域の上限 = 0;
             テスト対象.分割領域の下限 = 99;
             テスト対象.分割サイズの幅 = 100;
             テスト対象.分割サイズの高さ = 100;
             テスト対象.元画像倍率パーセント = 100;
             テスト対象.格子.Should().HaveCount(3);
-            テスト対象.格子.Should().Contain(new LineViewModel(0, 0, 198, 0));
+            テスト対象.格子.Should().Contain(new LineViewModel(0, 0, 199, 0));
             テスト対象.格子.Should().Contain(new LineViewModel(0, 0, 0, 99));
             テスト対象.格子.Should().Contain(new LineViewModel(100, 0, 100, 99));
         }
@@ -450,12 +450,12 @@ namespace Test.Uwp
             テスト対象.分割領域の左限 = 0;
             テスト対象.分割領域の右限 = 99;
             テスト対象.分割領域の上限 = 0;
-            テスト対象.分割領域の下限 = 198;
+            テスト対象.分割領域の下限 = 199;
             テスト対象.分割サイズの幅 = 100;
             テスト対象.分割サイズの高さ = 100;
             テスト対象.格子.Should().HaveCount(3);
             テスト対象.格子.Should().Contain(new LineViewModel(0, 0, 99, 0));
-            テスト対象.格子.Should().Contain(new LineViewModel(0, 0, 0, 198));
+            テスト対象.格子.Should().Contain(new LineViewModel(0, 0, 0, 199));
             テスト対象.格子.Should().Contain(new LineViewModel(0, 100, 99, 100));
         }
 
@@ -471,8 +471,8 @@ namespace Test.Uwp
             テスト対象.分割サイズの高さ = 100;
             テスト対象.元画像倍率パーセント = 200;
             テスト対象.格子.Should().HaveCount(2);
-            テスト対象.格子.Should().Contain(new LineViewModel(0, 0, 198, 0));
-            テスト対象.格子.Should().Contain(new LineViewModel(0, 0, 0, 198));
+            テスト対象.格子.Should().Contain(new LineViewModel(0, 0, 199, 0));
+            テスト対象.格子.Should().Contain(new LineViewModel(0, 0, 0, 199));
         }
 
         [Fact]
@@ -538,6 +538,57 @@ namespace Test.Uwp
             テスト対象.格子.Should().Contain(new LineViewModel(0, 0, 99, 0));
             テスト対象.格子.Should().Contain(new LineViewModel(0, 0, 0, 99));
             テスト対象.格子.Should().Contain(new LineViewModel(0, 50, 99, 50));
+        }
+        [Fact]
+        public void 分割領域のサイズは取得できます()
+        {
+            テスト対象.分割領域の左限 = 0;
+            テスト対象.分割領域の右限 = 99;
+            テスト対象.分割領域の上限 = 0;
+            テスト対象.分割領域の下限 = 99;
+
+            テスト対象.分割領域のサイズ.Should().Be(new Size(100, 100));
+        }
+
+        [Fact]
+        public void 分割領域のサイズは左限を反映します()
+        {
+            テスト対象.分割領域の左限 = 1;
+            テスト対象.分割領域の右限 = 99;
+            テスト対象.分割領域の上限 = 0;
+            テスト対象.分割領域の下限 = 99;
+
+            テスト対象.分割領域のサイズ.Should().Be(new Size(99, 100));
+        }
+        [Fact]
+        public void 分割領域のサイズは右限を反映します()
+        {
+            テスト対象.分割領域の左限 = 0;
+            テスト対象.分割領域の右限 = 98;
+            テスト対象.分割領域の上限 = 0;
+            テスト対象.分割領域の下限 = 99;
+
+            テスト対象.分割領域のサイズ.Should().Be(new Size(99, 100));
+        }
+        [Fact]
+        public void 分割領域のサイズは上限を反映します()
+        {
+            テスト対象.分割領域の左限 = 0;
+            テスト対象.分割領域の右限 = 99;
+            テスト対象.分割領域の上限 = 1;
+            テスト対象.分割領域の下限 = 99;
+
+            テスト対象.分割領域のサイズ.Should().Be(new Size(100, 99));
+        }
+        [Fact]
+        public void 分割領域のサイズは下限を反映します()
+        {
+            テスト対象.分割領域の左限 = 0;
+            テスト対象.分割領域の右限 = 99;
+            テスト対象.分割領域の上限 = 0;
+            テスト対象.分割領域の下限 = 98;
+
+            テスト対象.分割領域のサイズ.Should().Be(new Size(100, 99));
         }
     }
 }
